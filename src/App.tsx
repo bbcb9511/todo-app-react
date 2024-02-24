@@ -1,22 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
 
-  let resString: any = '未設定';
+  const [resStr, setResStr] = useState('未設定です');
 
   fetch('http://localhost:8080/')
     .then(response => {
-      resString = response;
-    } )
+      return response.text();
+    })
+    .then(data => {
+      setResStr(data);
+    })
     .catch(error => {
-      alert(error)
+      alert('エラー：' + error)
     });
 
 
   return (
     <div className="App">
-      {resString}
+      {resStr}
     </div>
   );
 }
