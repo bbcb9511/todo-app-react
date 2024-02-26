@@ -1,26 +1,29 @@
-import React, { useState } from 'react';
-import './App.css';
+import { ChakraProvider } from '@chakra-ui/react';
+import TodoForm from './component/TodoForm';
+import TodoList from './component/TodoList';
+import { RecoilRoot } from 'recoil';
 
 function App() {
 
-  const [resStr, setResStr] = useState('未設定です');
+  type todoColumnNameType = {
+    title: string;
+    status: string;
+    detail: string;
+  }
 
-  fetch('http://localhost:8080/')
-    .then(response => {
-      return response.text();
-    })
-    .then(data => {
-      setResStr(data);
-    })
-    .catch(error => {
-      alert('エラー：' + error)
-    });
-
+  const todoColumnName: todoColumnNameType = {
+    title: 'Todo名',
+    status: 'ステータス',
+    detail: '詳細'
+  }
 
   return (
-    <div className="App">
-      {resStr}
-    </div>
+    <RecoilRoot>
+      <ChakraProvider>
+        <TodoForm todoColumnName={todoColumnName}/>
+        <TodoList todoColumnName={todoColumnName}/>
+      </ChakraProvider>
+    </RecoilRoot>
   );
 }
 
